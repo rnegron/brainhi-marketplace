@@ -1,6 +1,7 @@
 import React from "react";
 
 import times from "lodash/times";
+
 import { Container } from "semantic-ui-react";
 
 import ProviderCard from "../providers/ProviderCard";
@@ -22,11 +23,12 @@ class MarketplaceContent extends React.Component {
   state = INITIAL_STATE;
 
   fetchAllProviders = async () => {
-    let results = await api.get("providers");
+    let response = await api.get("providers");
 
+    console.log({ response });
     this.setState({
       providerCardsLoading: false,
-      providers: results.data.providers
+      providers: response.data.results
     });
   };
 
@@ -43,8 +45,6 @@ class MarketplaceContent extends React.Component {
   onClickSearchButton = async () => {
     const { searchTerm } = this.state;
 
-    console.log({ searchTerm });
-
     if (!searchTerm) {
       return this.fetchAllProviders();
     }
@@ -52,11 +52,14 @@ class MarketplaceContent extends React.Component {
     this.setState({ searchResultsLoading: true, providerCardsLoading: true });
 
     try {
-      let results = await api.get(`providers/search/${searchTerm}`);
+      let response = await api.get(`providers/search/${searchTerm}`);
+
+      console.log({ response });
 
       this.setState({
-        providers: [],
-        searchResultsLoading: false
+        providers: response.data.results,
+        searchResultsLoading: false,
+        providerCardsLoading: false
       });
     } catch (err) {
       console.error(err);
@@ -70,24 +73,25 @@ class MarketplaceContent extends React.Component {
 
   // Return real provider cards or placeholders if still loading
   getProviderCards(loading) {
+    const { providers } = this.state;
+
     if (loading) {
       return times(10, id => {
         return <PlaceholderCard key={id} />;
       });
     } else {
-      return this.state.providers.map(
-        ({ id, name, picture, specialty, bio }) => {
-          return (
-            <ProviderCard
-              key={id}
-              name={name}
-              picture={picture}
-              specialty={specialty}
-              bio={bio}
-            />
-          );
-        }
-      );
+      return providers.map(({ id, name, picture, specialty, bio }) => {
+        return (
+          <ProviderCard
+            key={id}
+            id={id}
+            name={name}
+            picture={picture}
+            specialty={specialty}
+            bio={bio}
+          />
+        );
+      });
     }
   }
 

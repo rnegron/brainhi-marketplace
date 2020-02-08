@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: "http://localhost:3000/v1",
   headers: {
     Authorization: "Token ..."
   }

@@ -13,7 +13,7 @@ class MarketplaceHeader extends React.Component {
     const { activeItem } = this.state;
 
     return (
-      <Menu fixed="top" inverted>
+      <Menu inverted>
         <Container>
           <Menu.Item
             name="home"
@@ -27,7 +27,6 @@ class MarketplaceHeader extends React.Component {
           </Menu.Item>
           <Menu.Item
             name="home"
-            active={activeItem === "home"}
             onClick={this.handleItemClick}
             as={Link}
             to="/"
@@ -55,9 +54,6 @@ class MarketplaceHeader extends React.Component {
           >
             Login
           </Menu.Item>
-          {/* <Menu.Item name="logout" as={Link} to="/logout">
-            Logout
-          </Menu.Item> */}
         </Menu.Menu>
       </Menu>
     );

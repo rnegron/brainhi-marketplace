@@ -1,12 +1,18 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import {
   Login,
   Register,
   MarketplaceHeader,
   MarketplaceContent,
-  MarketplaceFooter
+  MarketplaceFooter,
+  ProviderDetails
 } from "./components";
+
+// From: https://kentcdodds.com/blog/authentication-in-react-applications
+// import { useUser } from "./context/auth";
+// const AuthenticatedApp = React.lazy(() => import("./AuthenticatedApp"));
+// const UnauthenticatedApp = React.lazy(() => import("./UnauthenticatedApp"));
 
 class App extends React.Component {
   render() {
@@ -15,9 +21,24 @@ class App extends React.Component {
         <BrowserRouter>
           <MarketplaceHeader></MarketplaceHeader>
 
-          <Route path="/" exact component={MarketplaceContent}></Route>
-          <Route path="/login" exact component={Login}></Route>
-          <Route path="/register" exact component={Register}></Route>
+          <Switch>
+            <Route exact path="/">
+              <MarketplaceContent />
+            </Route>
+            <Route exact path="/providers">
+              <MarketplaceContent />
+            </Route>
+            
+            <Route exact path="/providers/:id">
+              <ProviderDetails />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/register">
+              <Register />
+            </Route>
+          </Switch>
 
           <MarketplaceFooter></MarketplaceFooter>
         </BrowserRouter>

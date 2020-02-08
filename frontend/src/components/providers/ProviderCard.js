@@ -1,18 +1,37 @@
 import React from "react";
+import { withRouter } from "react-router";
 
-import { Card } from "semantic-ui-react";
+import { Card, Image, Button } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 class ProviderCard extends React.Component {
+  getButton = id => {
+    return <Button primary content="Details"></Button>;
+  };
+
   render() {
+    const { id } = this.props;
+
     return (
-      <Card
-        image={this.props.picture}
-        header={this.props.name}
-        meta={this.props.specialty}
-        description={this.props.bio}
-      />
+      <Card as={Link} to={`/providers/${id}`}>
+        <Image src={this.props.picture} />
+
+        <Card.Content>
+          <Card.Header>{this.props.name}</Card.Header>
+
+          <Card.Meta>
+            <span className="specialty">{this.props.specialty}</span>
+          </Card.Meta>
+
+          <Card.Description>{this.props.bio}</Card.Description>
+        </Card.Content>
+
+        <Card.Content extra textAlign={"center"}>
+          {this.getButton(id)}
+        </Card.Content>
+      </Card>
     );
   }
 }
 
-export default ProviderCard;
+export default withRouter(ProviderCard);

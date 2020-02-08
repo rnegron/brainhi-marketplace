@@ -1,4 +1,4 @@
-import { Login, Register } from "./auth";
+import { Login, LogoutButton, Register } from "./auth";
 
 import {
   MarketplaceHeader,
@@ -10,11 +10,13 @@ import {
   ProviderCard,
   ProviderCardGroup,
   ProviderSearchBar,
-  ProviderSearchBox
+  ProviderSearchBox,
+  ProviderDetails
 } from "./providers";
 
 export {
   Login,
+  LogoutButton,
   Register,
   MarketplaceHeader,
   MarketplaceContent,
@@ -22,5 +24,6 @@ export {
   ProviderCard,
   ProviderCardGroup,
   ProviderSearchBox,
-  ProviderSearchBar
+  ProviderSearchBar,
+  ProviderDetails
 };
