@@ -27,8 +27,8 @@ case "$1" in
     python manage.py makemigrations
     python manage.py migrate
 
-    echo "==> Loading initial data..."
-    python manage.py loaddata marketplace/users/fixtures/initial.json
+    # echo "==> Loading initial data..."
+    # python manage.py loaddata marketplace/users/fixtures/initial.json
 
     echo "==> Running dev server..."
     python manage.py runserver_plus 0.0.0.0:8000
