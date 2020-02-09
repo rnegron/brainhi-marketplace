@@ -2,7 +2,7 @@ import os
 
 from .base import *  # noqa
 
-# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['brainhi-api.rauln.com']
 
 # DATABASES
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
