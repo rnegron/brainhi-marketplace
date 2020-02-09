@@ -17,7 +17,7 @@ FROM base as builder
 
 WORKDIR /tmp/
 RUN pip install pipenv==2018.11.26
-COPY Pipfile Pipfile.lock /tmp/
+COPY --chown=appuser:appuser Pipfile Pipfile.lock /tmp/
 RUN pipenv lock --requirements > requirements.txt
 RUN pipenv lock --requirements --dev > requirements_dev.txt
 
