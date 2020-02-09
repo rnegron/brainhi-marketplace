@@ -7,14 +7,17 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "faker": "^4.1.0",
     "lodash": "^4.17.15",
+    "miragejs": "^0.1.33",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.1",
     "react-semantic-ui-datepickers": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "uuid": "^3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -38,13 +41,9 @@
     ]
   },
   "devDependencies": {
-    "faker": "^4.1.0",
     "husky": "^4.2.1",
     "lint-staged": "^10.0.7",
-    "miragejs": "^0.1.33",
-    "netlify-cli": "^2.32.0",
-    "prettier": "^1.19.1",
-    "uuid": "^3.4.0"
+    "prettier": "^1.19.1"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
