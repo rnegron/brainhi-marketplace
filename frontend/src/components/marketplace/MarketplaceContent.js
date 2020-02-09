@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router";
 
 import times from "lodash/times";
 
@@ -26,6 +27,7 @@ class MarketplaceContent extends React.Component {
     let response = await api.get("providers");
 
     console.log({ response });
+
     this.setState({
       providerCardsLoading: false,
       providers: response.data.results
@@ -76,7 +78,7 @@ class MarketplaceContent extends React.Component {
     const { providers } = this.state;
 
     if (loading) {
-      return times(10, id => {
+      return times(25, id => {
         return <PlaceholderCard key={id} />;
       });
     } else {
@@ -118,4 +120,4 @@ class MarketplaceContent extends React.Component {
   }
 }
 
-export default MarketplaceContent;
+export default withRouter(MarketplaceContent);

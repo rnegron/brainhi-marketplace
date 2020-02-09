@@ -15,18 +15,15 @@ export function makeServer({ environment = "development" } = {}) {
     identityManagers: [uuidIdentityManager],
 
     models: {
-      //   user: Model,
       provider: Model
-      //   appointment: Model
     },
 
     factories: {
       provider: ProviderFactory
-      //   appointment: Factory.extend({})
     },
 
     seeds(server) {
-      server.createList("provider", 10);
+      server.createList("provider", 25);
     },
 
     routes() {
@@ -57,6 +54,7 @@ export function makeServer({ environment = "development" } = {}) {
           timing: 2000
         }
       );
+
       this.get(
         "/providers/:id",
         function(schema, request) {
@@ -68,6 +66,14 @@ export function makeServer({ environment = "development" } = {}) {
         },
         { timing: 500 }
       );
+
+      this.post(
+        "/providers/:id/appointment",
+        function(schema, request) {
+          let data = JSON.parse(request.requestBody);
+          return schema.appointments.create(data);
+        }
+      )
     }
   });
 

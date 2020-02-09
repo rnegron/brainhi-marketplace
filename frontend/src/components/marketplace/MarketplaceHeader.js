@@ -10,7 +10,7 @@ class MarketplaceHeader extends React.Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-    const { activeItem } = this.state;
+    // const { activeItem } = this.state;
 
     return (
       <Menu inverted>
@@ -35,7 +35,7 @@ class MarketplaceHeader extends React.Component {
             Home
           </Menu.Item>
         </Container>
-        <Menu.Menu position="right">
+        {/* <Menu.Menu position="right">
           <Menu.Item
             name="register"
             active={activeItem === "register"}
@@ -54,7 +54,7 @@ class MarketplaceHeader extends React.Component {
           >
             Login
           </Menu.Item>
-        </Menu.Menu>
+        </Menu.Menu> */}
       </Menu>
     );
   }

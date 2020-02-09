@@ -4,8 +4,7 @@ import { AppointmentForm } from "../appointments";
 
 class ProviderAppointment extends React.Component {
   render() {
-    console.log("HERE!!")
-    return <AppointmentForm/>;
+    return <AppointmentForm {...this.props} />;
   }
 }
 

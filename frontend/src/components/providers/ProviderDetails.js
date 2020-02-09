@@ -11,6 +11,8 @@ import {
   Grid
 } from "semantic-ui-react";
 
+// import ProviderAppointment from "./ProviderAppointment";
+
 import api from "../../services/api";
 
 const INITIAL_STATE = {
@@ -60,13 +62,7 @@ class ProviderDetails extends React.Component {
           <Grid container stackable verticalAlign="middle">
             <Grid.Row centered>
               <Grid.Column floated="left" width={6}>
-                <Image
-                  loading="{this.state.loading}"
-                  bordered
-                  rounded
-                  size="large"
-                  src={picture}
-                />
+                <Image bordered rounded size="large" src={picture} />
               </Grid.Column>
               <Grid.Column width={8}>
                 <Header as="h1">{name}</Header>

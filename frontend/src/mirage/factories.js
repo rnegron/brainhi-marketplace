@@ -11,10 +11,13 @@ const SPECIALTIES = [
 ];
 
 const ProviderFactory = Factory.extend({
+  address: () =>
+    `${faker.address.streetAddress()} ${faker.address.secondaryAddress()}, ${faker.address.city()} ${faker.address.state()}`,
+  bio: () => faker.lorem.sentence(),
   name: () => `${faker.name.firstName()} ${faker.name.lastName()}`,
-  specialty: () => faker.random.arrayElement(SPECIALTIES),
+  phone: () => faker.phone.phoneNumber(),
   picture: () => faker.image.avatar(),
-  bio: () => faker.lorem.sentence()
+  specialty: () => faker.random.arrayElement(SPECIALTIES)
 });
 
 export { ProviderFactory };

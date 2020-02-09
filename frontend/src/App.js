@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import {
-  Login,
-  Register,
+  // Login,
+  // Register,
   MarketplaceHeader,
   MarketplaceContent,
   MarketplaceFooter,
@@ -41,13 +41,13 @@ class App extends React.Component {
               <ProviderAppointment />
             </Route>
 
-            <Route exact path="/login">
+            {/* <Route exact path="/login">
               <Login />
             </Route>
 
             <Route exact path="/register">
               <Register />
-            </Route>
+            </Route> */}
           </Switch>
 
           <MarketplaceFooter></MarketplaceFooter>
