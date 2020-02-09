@@ -16,7 +16,7 @@ APPS_DIR = Path(BASE_DIR).joinpath("marketplace")
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = False
+DEBUG = os.getenv("DEBUG", False)
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "marketplace.utils.apps.UtilsConfig",
     "marketplace.api.apps.ApiConfig",
     "marketplace.users.apps.UsersConfig",
+    "marketplace.providers.apps.ProvidersConfig",
     "marketplace.appointments.apps.AppointmentsConfig",
     "marketplace.insurance.apps.InsuranceConfig",
 ]
@@ -136,7 +137,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = "/content/"
 MEDIA_ROOT = Path(BASE_DIR).joinpath("content")
 
-ADMINS = []
+ADMINS = ["raul.esteban.negron@gmail.com"]
 MANAGERS = ADMINS
 
 LOGGING = {
@@ -193,7 +194,7 @@ DJOSER = {
 
 # django-cors-headers
 CORS_ORIGIN_ALLOW_ALL = bool(DEBUG)
-CORS_URLS_REGEX = r"^/api/v1/.*$"
+CORS_URLS_REGEX = r"^/v1/.*$"
 
 # django-allauth
 AUTHENTICATION_BACKENDS = (
