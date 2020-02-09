@@ -1,3 +1,6 @@
 from django.urls import include, path
 
-urlpatterns = []
+urlpatterns = [
+    path("appointments/", include("marketplace.appointments.urls")),
+    path("insurance/", include("marketplace.insurance.urls")),
+]

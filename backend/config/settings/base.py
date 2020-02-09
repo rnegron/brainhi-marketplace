@@ -37,10 +37,13 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "phonenumber_field",
     # Local Apps
     "marketplace.utils.apps.UtilsConfig",
     "marketplace.api.apps.ApiConfig",
     "marketplace.users.apps.UsersConfig",
+    "marketplace.appointments.apps.AppointmentsConfig",
+    "marketplace.insurance.apps.InsuranceConfig",
 ]
 
 
@@ -159,6 +162,7 @@ AUTH_USER_MODEL = "users.User"
 
 SITE_ID = 1
 
+EMAIL_SUBJECT_PREFIX = "[Marketplace] "
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # django-rest-framework
@@ -188,6 +192,7 @@ DJOSER = {
 }
 
 # django-cors-headers
+CORS_ORIGIN_ALLOW_ALL = bool(DEBUG)
 CORS_URLS_REGEX = r"^/api/v1/.*$"
 
 # django-allauth
@@ -204,5 +209,5 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "[marketplace]"
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Marketplace]"
 ACCOUNT_SESSION_REMEMBER = True
