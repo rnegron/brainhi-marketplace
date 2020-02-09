@@ -13,9 +13,9 @@ from .serializers import ProviderSearchSerializer, ProviderSerializer
 
 class ProviderViewSet(viewsets.ModelViewSet):
     serializer_class = ProviderSerializer
-    
+
     # Random order, limited to 30
-    queryset = Provider.objects.all().order_by("?")][:30]
+    queryset = Provider.objects.all().order_by("?")[:30]
     filterset_fields = ("specialty", "gender")
 
     @action(detail=False, methods=["GET"], permission_classes=[AllowAny])
