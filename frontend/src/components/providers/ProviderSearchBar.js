@@ -4,8 +4,6 @@ import React from "react";
 import { Search } from "semantic-ui-react";
 
 class ProviderSearchBar extends React.Component {
-  state = { popupOpen: false };
-
   render() {
     return (
       <Search
