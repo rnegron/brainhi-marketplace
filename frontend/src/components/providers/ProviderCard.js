@@ -6,14 +6,21 @@ import { Link } from "react-router-dom";
 
 class ProviderCard extends React.Component {
   getButton = id => {
-    return <Button primary content="Details"></Button>;
+    return (
+      <Button
+        as={Link}
+        to={`/providers/${id}`}
+        primary
+        content="Details"
+      ></Button>
+    );
   };
 
   render() {
     const { id } = this.props;
 
     return (
-      <Card as={Link} to={`/providers/${id}`}>
+      <Card>
         <Image src={this.props.picture} />
 
         <Card.Content>

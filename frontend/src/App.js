@@ -6,7 +6,9 @@ import {
   MarketplaceHeader,
   MarketplaceContent,
   MarketplaceFooter,
-  ProviderDetails
+  ProviderDetails,
+  ScrollToTop,
+  ProviderAppointment
 } from "./components";
 
 // From: https://kentcdodds.com/blog/authentication-in-react-applications
@@ -19,22 +21,30 @@ class App extends React.Component {
     return (
       <div>
         <BrowserRouter>
+          <ScrollToTop />
           <MarketplaceHeader></MarketplaceHeader>
 
           <Switch>
             <Route exact path="/">
               <MarketplaceContent />
             </Route>
+
             <Route exact path="/providers">
               <MarketplaceContent />
             </Route>
-            
+
             <Route exact path="/providers/:id">
               <ProviderDetails />
             </Route>
+
+            <Route exact path="/providers/:id/appointment">
+              <ProviderAppointment />
+            </Route>
+
             <Route exact path="/login">
               <Login />
             </Route>
+
             <Route exact path="/register">
               <Register />
             </Route>

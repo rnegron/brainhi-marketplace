@@ -1,17 +1,22 @@
 import { Login, LogoutButton, Register } from "./auth";
 
+import { ScrollToTop } from "./extras";
+
 import {
   MarketplaceHeader,
   MarketplaceContent,
   MarketplaceFooter
 } from "./marketplace";
 
+import { AppointmentForm } from "./appointments";
+
 import {
   ProviderCard,
   ProviderCardGroup,
   ProviderSearchBar,
   ProviderSearchBox,
-  ProviderDetails
+  ProviderDetails,
+  ProviderAppointment
 } from "./providers";
 
 export {
@@ -25,5 +30,8 @@ export {
   ProviderCardGroup,
   ProviderSearchBox,
   ProviderSearchBar,
-  ProviderDetails
+  ProviderAppointment,
+  ProviderDetails,
+  AppointmentForm,
+  ScrollToTop
 };

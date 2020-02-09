@@ -1,5 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
+
 import {
   Header,
   Image,
@@ -11,7 +13,13 @@ import {
 
 import api from "../../services/api";
 
-const INITIAL_STATE = { name: null, bio: null, specialty: null, picture: null };
+const INITIAL_STATE = {
+  id: null,
+  name: null,
+  bio: null,
+  specialty: null,
+  picture: null
+};
 
 class ProviderDetails extends React.Component {
   state = INITIAL_STATE;
@@ -19,6 +27,8 @@ class ProviderDetails extends React.Component {
   componentDidMount = async () => {
     const id = this.props.match.params.id;
 
+    console.log("props:", this.props);
+    console.log({ id });
     try {
       this.setState({ loading: true });
 
@@ -27,10 +37,8 @@ class ProviderDetails extends React.Component {
 
       let result = response.data.results;
       this.setState({
-        bio: result.bio,
-        name: result.name,
-        picture: result.picture,
-        specialty: result.specialty,
+        ...result,
+        id,
         loading: false
       });
     } catch (err) {
@@ -38,6 +46,7 @@ class ProviderDetails extends React.Component {
       this.setState({ ...INITIAL_STATE, loading: false });
     }
   };
+
   render() {
     const { name, picture, specialty, bio } = this.state;
 
@@ -52,7 +61,7 @@ class ProviderDetails extends React.Component {
             <Grid.Row centered>
               <Grid.Column floated="left" width={6}>
                 <Image
-                  loading={this.state.loading}
+                  loading="{this.state.loading}"
                   bordered
                   rounded
                   size="large"
@@ -63,10 +72,15 @@ class ProviderDetails extends React.Component {
                 <Header as="h1">{name}</Header>
                 <Header as="h3">{specialty}</Header>
                 <p style={{ fontSize: "1.30em", marginTop: "1em" }}>{bio}</p>
-                <Button size="huge">Book an appointment</Button>
+                <Button
+                  as={Link}
+                  to={`/providers/${this.state.id}/appointment`}
+                  size="huge"
+                >
+                  Book an appointment
+                </Button>
               </Grid.Column>
             </Grid.Row>
-            {/* <Grid.Row></Grid.Row> */}
           </Grid>
         </Segment>
       </Container>

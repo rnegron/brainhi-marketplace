@@ -54,7 +54,7 @@ export function makeServer({ environment = "development" } = {}) {
           return { results: [json.provider] };
         },
         {
-          timing: 5000
+          timing: 2000
         }
       );
       this.get(
