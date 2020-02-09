@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { Card, Image, Button } from "semantic-ui-react";

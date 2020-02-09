@@ -24,6 +24,10 @@ class Provider(models.Model):
     name = models.CharField(blank=True, max_length=255)
     specialty = models.CharField(max_length=64)
 
+    picture = models.ImageField(
+        upload_to="provider_avatar", default="default-avatar.png"
+    )
+
     phone_number = PhoneNumberField()
     address = models.CharField(max_length=128, blank=True)
     gender = models.CharField(max_length=30, choices=GENDER_CHOICES)

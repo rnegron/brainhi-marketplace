@@ -2,8 +2,11 @@ import "react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css";
 import SemanticDatepicker from "react-semantic-ui-datepickers";
 
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 import { convertToTimeZone } from "date-fns-timezone/dist/convertToTimeZone";
+
+import api from "../../services/api";
 
 import {
   Button,
@@ -11,10 +14,7 @@ import {
   Dropdown,
   Form,
   Grid,
-  Input,
-  // Label,
-  Message,
-  Segment
+  Message
 } from "semantic-ui-react";
 
 const HOUR_OPTIONS = [
@@ -103,6 +103,7 @@ class AppointmentForm extends React.Component {
     fieldAppointmentTime: "",
 
     formSuccess: null,
+    resultLoading: false,
     errors: {
       fieldFirstName: null,
       fieldLastName: null,
@@ -116,18 +117,61 @@ class AppointmentForm extends React.Component {
     }
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
-    console.log({ e });
+
+    let providerId = this.props.match.params.id;
+
+    let {
+      fieldFirstName,
+      fieldLastName,
+      fieldPhone,
+      fieldGender,
+      fieldInsurance,
+      fieldDateOfBirth,
+      fieldAppointmentReason,
+      fieldAppointmentDate,
+      fieldAppointmentTime
+    } = this.state;
+
+    // POST form result
+    this.setState({ resultLoading: true });
+    try {
+      // TODO:Merge fieldAppointmentDate and fieldAppointmentTime
+      // TODO: Remove time from patientDateOfBirth
+
+      console.log({ fieldAppointmentDate, fieldAppointmentTime });
+      let response = await api.post(`/providers/${providerId}/appointment/`, {
+        start_time: null,
+        appointment_reason: fieldAppointmentReason,
+        patient_name: `${fieldFirstName} ${fieldLastName}`,
+        patient_insurance: fieldInsurance,
+        patient_gender: fieldGender,
+        patient_date_of_birth: fieldDateOfBirth,
+        patient_phone_number: fieldPhone
+      });
+
+      this.setState({ resultLoading: false });
+
+      if (response.status === 201) {
+        this.setState({ formSuccess: true });
+      } else {
+        // TODO: Handle errors
+        this.setState({ formSuccess: false });
+      }
+
+      console.log({ appointmentResponse: response });
+    } catch (error) {
+      console.error(error);
+      // TODO: Handle errors
+      this.setState({ resultLoading: false });
+    }
   };
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
   render() {
     const {
-      providerId,
-      providerName,
-
       fieldFirstName,
       fieldLastName,
       fieldPhone,
@@ -138,6 +182,7 @@ class AppointmentForm extends React.Component {
       fieldAppointmentTime,
 
       formSuccess,
+      resultLoading,
       errors
     } = this.state;
 
@@ -145,13 +190,6 @@ class AppointmentForm extends React.Component {
       <Grid centered columns={2} verticalAlign="middle">
         <Grid.Column style={{ margin: "4em 0em" }}>
           <Form size="large" success={formSuccess} onSubmit={this.handleSubmit}>
-            <Form.Input
-              fluid
-              label="Health Provider"
-              placeholder={providerName}
-              disabled
-              value={providerId}
-            />
             <Form.Group widths="equal">
               <Form.Input
                 id="form-input-control-first-name"
@@ -183,6 +221,8 @@ class AppointmentForm extends React.Component {
                 label="Gender"
                 options={GENDER_OPTIONS}
                 defaultValue="n/a"
+                name="fieldGender"
+                onChange={this.handleChange}
                 required
                 error={errors.genderError}
               />
@@ -192,16 +232,15 @@ class AppointmentForm extends React.Component {
               <Form.Input
                 label="Phone Number"
                 id="form-input-control-phone"
-                inline
                 required
                 placeholder="7877877878"
-                name="fieldphone"
+                name="fieldPhone"
                 onChange={this.handleChange}
                 value={fieldPhone}
                 error={errors.fieldPhone}
               ></Form.Input>
 
-              <Form.Field>
+              <Form.Field required>
                 <label>Date of Birth</label>
                 <SemanticDatepicker
                   datePickerOnly={true}
@@ -244,6 +283,7 @@ class AppointmentForm extends React.Component {
 
             <Form.Group widths={"equal"}>
               <Form.Field required>
+                <label>Appointment Date</label>
                 <SemanticDatepicker
                   datePickerOnly={true}
                   placeholder="Appointment Date"
@@ -259,6 +299,7 @@ class AppointmentForm extends React.Component {
                 />
               </Form.Field>
               <Form.Field required>
+                <label>Appointment Hour</label>
                 <Dropdown placeholder="Hour" selection options={HOUR_OPTIONS} />
               </Form.Field>
             </Form.Group>
@@ -270,7 +311,12 @@ class AppointmentForm extends React.Component {
 
             <Grid style={{ marginTop: "0.5em" }}>
               <Grid.Column textAlign="center">
-                <Button primary large="true" content={"Request Appointment"} />
+                <Button
+                  loading={resultLoading}
+                  primary
+                  large="true"
+                  content={"Request Appointment"}
+                />
               </Grid.Column>
             </Grid>
           </Form>
@@ -280,4 +326,4 @@ class AppointmentForm extends React.Component {
   }
 }
 
-export default AppointmentForm;
+export default withRouter(AppointmentForm);

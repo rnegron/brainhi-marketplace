@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import {
@@ -29,15 +29,13 @@ class ProviderDetails extends React.Component {
   componentDidMount = async () => {
     const id = this.props.match.params.id;
 
-    console.log("props:", this.props);
-    console.log({ id });
     try {
       this.setState({ loading: true });
 
       let response = await api.get(`providers/${id}`);
-      console.log({ response });
+      console.log({ detailsResponse: response });
 
-      let result = response.data.results;
+      let result = response.data;
       this.setState({
         ...result,
         id,

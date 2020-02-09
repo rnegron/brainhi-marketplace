@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 
 import times from "lodash/times";
 
@@ -26,7 +26,7 @@ class MarketplaceContent extends React.Component {
   fetchAllProviders = async () => {
     let response = await api.get("providers");
 
-    console.log({ response });
+    console.log({ contentResponse: response });
 
     this.setState({
       providerCardsLoading: false,
@@ -54,7 +54,11 @@ class MarketplaceContent extends React.Component {
     this.setState({ searchResultsLoading: true, providerCardsLoading: true });
 
     try {
-      let response = await api.get(`providers/search/${searchTerm}`);
+      let response = await api.get(`providers/search`, {
+        params: {
+          search_term: searchTerm
+        }
+      });
 
       console.log({ response });
 

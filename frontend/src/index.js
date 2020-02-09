@@ -5,8 +5,8 @@ import App from "./App";
 
 import { makeServer } from "./mirage";
 
-// Use MirageJS in development
-if (process.env.NODE_ENV === "development") {
+// Use MirageJS in development, sometimes
+if (process.env.NODE_ENV === "mirage") {
   makeServer();
 }
 

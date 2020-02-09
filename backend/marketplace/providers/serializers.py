@@ -10,6 +10,7 @@ class ProviderSerializer(serializers.ModelSerializer):
             "id",
             "provider_id",
             "name",
+            "picture",
             "specialty",
             "phone_number",
             "address",

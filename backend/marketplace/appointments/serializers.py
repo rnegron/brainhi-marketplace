@@ -3,7 +3,7 @@ from rest_framework import serializers
 from . import models
 
 
-class AppointmentsSerializer(serializers.Serializer):
+class AppointmentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Appointment
         fields = (
@@ -11,5 +11,9 @@ class AppointmentsSerializer(serializers.Serializer):
             "start_time",
             "end_time",
             "appointment_reason",
-            "patient",
+            "patient_name",
+            "patient_insurance",
+            "patient_gender",
+            "patient_date_of_birth",
+            "patient_phone_number",
         )

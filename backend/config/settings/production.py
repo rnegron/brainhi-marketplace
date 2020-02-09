@@ -49,6 +49,15 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 EMAIL_PORT = os.getenv("EMAIL_PORT", 25)
 EMAIL_USE_TLS = True
 
+# django-storages
+INSTALLED_APPS += ["storages"]  # noqa F405
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_DEFAULT_ACL = "private"
+AWS_S3_REGION_NAME = "us-east-1"
+
 # LOGGING
 LOGGING = {
     "version": 1,

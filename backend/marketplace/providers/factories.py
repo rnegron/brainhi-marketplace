@@ -19,7 +19,7 @@ class ProviderFactory(DjangoModelFactory):
     name = factory.Faker("name")
     provider_id = factory.LazyAttribute(lambda _: getNPI())
     specialty = factory.Faker("job")
-    adddress = factory.Faker("address")
+    address = factory.Faker("address")
     phone_number = factory.Faker("phone_number")
     gender = random.choice(GENDER_CHOICES)
     bio = factory.Faker("text")

@@ -4,6 +4,6 @@ from .models import Appointment
 from .serializers import AppointmentsSerializer
 
 
-class AppointmentViewSet(viewsets.ModelViewSet):
+class AppointmentViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentsSerializer

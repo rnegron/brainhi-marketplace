@@ -41,6 +41,7 @@ services:
       - .env
     restart: on-failure
     volumes:
+      - ./tests:/home/appusers/tests
       - ./marketplace:/home/appuser/marketplace
       - ./config:/home/appuser/config
     ports:

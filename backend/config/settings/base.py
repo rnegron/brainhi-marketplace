@@ -134,8 +134,8 @@ STATIC_URL = "/static/"
 # whitenoise
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-MEDIA_URL = "/content/"
-MEDIA_ROOT = Path(BASE_DIR).joinpath("content")
+MEDIA_URL = "/media/"
+MEDIA_ROOT = Path(BASE_DIR).joinpath("media")
 
 ADMINS = ["raul.esteban.negron@gmail.com"]
 MANAGERS = ADMINS
@@ -172,10 +172,11 @@ REST_FRAMEWORK = {
     "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 100,
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
     ),
+    "EXCEPTION_HANDLER": "marketplace.utils.exception_handler.custom_exception_handler",
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
