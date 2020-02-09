@@ -31,6 +31,7 @@ django-phonenumber-field = "==4.0.0"
 phonenumbers = "==8.11.3"
 django-storages = "==1.9.1"
 pillow = "*"
+boto3 = "*"
 
 [requires]
 python_version = "3.7"
