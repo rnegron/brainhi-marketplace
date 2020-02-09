@@ -44,23 +44,6 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    PROVIDER = "PROVIDER"
-    PATIENT = "PATIENT"
-
-    ROLE_CHOICES = [(PATIENT, "patient"), (PROVIDER, "provider")]
-
-    MALE = "MALE"
-    FEMALE = "FEMALE"
-    OTHER = "OTHER"
-    PREFER_NOT_TO_SAY = "PREFER NOT TO SAY"
-
-    GENDER_CHOICES = [
-        (MALE, "male"),
-        (FEMALE, "female"),
-        (OTHER, "other"),
-        (PREFER_NOT_TO_SAY, "prefer not to say"),
-    ]
-
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(blank=True, max_length=255)
     email = models.EmailField(verbose_name=_("email address"), unique=True)
@@ -84,18 +67,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     date_of_birth = models.DateField(null=True)
-
     phone_number = PhoneNumberField()
-
     address = models.CharField(max_length=128, blank=True)
-
-    gender = models.CharField(max_length=30, choices=GENDER_CHOICES)
-
-    provider_id = models.CharField(max_length=10, blank=True)
-
     insurance = models.ForeignKey(Insurance, null=True, on_delete=models.SET_NULL)
-
-    role = models.CharField(max_length=8, choices=ROLE_CHOICES)
 
     objects = CustomUserManager()
 
