@@ -47,7 +47,7 @@ class ProviderDetails extends React.Component {
   };
 
   render() {
-    const { name, picture, specialty, bio, address, phoneNumber } = this.state;
+    const { name, picture, specialty, bio, address, phone_number } = this.state;
 
     return (
       <Container text textAlign={"center"} style={{ marginTop: "5em" }}>
@@ -64,9 +64,11 @@ class ProviderDetails extends React.Component {
               <Grid.Column width={8}>
                 <Header as="h1" dividing>
                   <Header.Content>
-                    {name} ({phoneNumber})
+                    {name} ({phone_number})
                   </Header.Content>
-                  <Header.Subheader style={{marginTop: '1em'}}>{address}</Header.Subheader>
+                  <Header.Subheader style={{ marginTop: "1em" }}>
+                    {address}
+                  </Header.Subheader>
                 </Header>
 
                 <Header as="h3" content={specialty} />

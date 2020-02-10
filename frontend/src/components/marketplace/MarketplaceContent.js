@@ -87,7 +87,7 @@ class MarketplaceContent extends React.Component {
       });
     } else {
       return providers.map(
-        ({ id, name, picture, specialty, bio, address, phoneNumber }) => {
+        ({ id, name, picture, specialty, bio, address, phone_number }) => {
           return (
             <ProviderCard
               key={id}
@@ -97,7 +97,7 @@ class MarketplaceContent extends React.Component {
               specialty={specialty}
               address={address}
               bio={bio}
-              phone={phoneNumber}
+              phone={phone_number}
             />
           );
         }
