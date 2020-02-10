@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "marketplace.users.apps.UsersConfig",
     "marketplace.providers.apps.ProvidersConfig",
     "marketplace.appointments.apps.AppointmentsConfig",
-    "marketplace.insurance.apps.InsuranceConfig",
 ]
 
 
@@ -128,7 +127,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = "assets"
+STATIC_ROOT = "static"
 STATIC_URL = "/static/"
 
 # whitenoise
