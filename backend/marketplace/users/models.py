@@ -8,8 +8,6 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from marketplace.insurance.models import Insurance
-
 
 class CustomUserManager(BaseUserManager):
     use_in_migrations = True
@@ -69,7 +67,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateField(null=True)
     phone_number = PhoneNumberField()
     address = models.CharField(max_length=128, blank=True)
-    insurance = models.ForeignKey(Insurance, null=True, on_delete=models.SET_NULL)
 
     objects = CustomUserManager()
 
