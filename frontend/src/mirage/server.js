@@ -62,7 +62,7 @@ export function makeServer({ environment = "development" } = {}) {
           let provider = schema.providers.find(id);
           let json = this.serialize(provider);
 
-          return { results: json.provider };
+          return json.provider;
         },
         { timing: 500 }
       );

@@ -1,29 +1,57 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
-import { Card, Image, Button } from "semantic-ui-react";
+// import truncate from "lodash/truncate";
+
+import { Card, Icon, Image, Button, Header, Divider } from "semantic-ui-react";
 
 class ProviderCard extends React.Component {
   render() {
-    const { id, picture, name, specialty, bio } = this.props;
+    const { id, picture, name, specialty, address, phone } = this.props;
 
     return (
       <Card>
-        <Image src={picture} />
+        <Image src={picture} wrapped ui={false} />
 
         <Card.Content>
           <Card.Header>{name}</Card.Header>
 
+          <Divider />
+
           <Card.Meta>
-            <span className="specialty">{specialty}</span>
+            <span className="specialty">
+              <Icon name="doctor" style={{ marginRight: "0.5em" }} />
+              {specialty}
+            </span>
           </Card.Meta>
 
-          <Card.Description>{bio}</Card.Description>
+          <Divider />
+
+          <Card.Meta>
+            <span className="phone">
+              <Icon name="phone" style={{ marginRight: "0.5em" }} />
+              {phone}
+            </span>
+          </Card.Meta>
+
+          <Divider />
+          <Card.Meta>
+            <span className="address">
+              <Icon name="home" style={{ marginRight: "0.5em" }} />
+              {address}
+            </span>
+          </Card.Meta>
+
+          {/* <Card.Description>{address}</Card.Description> */}
         </Card.Content>
 
         <Card.Content extra textAlign={"center"}>
-          <Button as={Link} to={`/providers/${id}`} primary content="Details"></Button>
+          <Button
+            as={Link}
+            to={`/providers/${id}`}
+            primary
+            content="Details"
+          ></Button>
         </Card.Content>
       </Card>
     );

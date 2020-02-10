@@ -11,8 +11,6 @@ import {
   Grid
 } from "semantic-ui-react";
 
-// import ProviderAppointment from "./ProviderAppointment";
-
 import api from "../../services/api";
 
 const INITIAL_STATE = {
@@ -27,6 +25,7 @@ class ProviderDetails extends React.Component {
   state = INITIAL_STATE;
 
   componentDidMount = async () => {
+    // Re-fetch data...
     const id = this.props.match.params.id;
 
     try {
@@ -48,7 +47,7 @@ class ProviderDetails extends React.Component {
   };
 
   render() {
-    const { name, picture, specialty, bio } = this.state;
+    const { name, picture, specialty, bio, address, phoneNumber } = this.state;
 
     return (
       <Container text textAlign={"center"} style={{ marginTop: "5em" }}>
@@ -60,11 +59,17 @@ class ProviderDetails extends React.Component {
           <Grid container stackable verticalAlign="middle">
             <Grid.Row centered>
               <Grid.Column floated="left" width={6}>
-                <Image bordered rounded size="large" src={picture} />
+                <Image bordered circular size="large" src={picture} />
               </Grid.Column>
               <Grid.Column width={8}>
-                <Header as="h1">{name}</Header>
-                <Header as="h3">{specialty}</Header>
+                <Header as="h1" dividing>
+                  <Header.Content>
+                    {name} ({phoneNumber})
+                  </Header.Content>
+                  <Header.Subheader style={{marginTop: '1em'}}>{address}</Header.Subheader>
+                </Header>
+
+                <Header as="h3" content={specialty} />
                 <p style={{ fontSize: "1.30em", marginTop: "1em" }}>{bio}</p>
                 <Button
                   as={Link}

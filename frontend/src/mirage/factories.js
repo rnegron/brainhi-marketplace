@@ -15,7 +15,7 @@ const ProviderFactory = Factory.extend({
     `${faker.address.streetAddress()} ${faker.address.secondaryAddress()}, ${faker.address.city()} ${faker.address.state()}`,
   bio: () => faker.lorem.sentence(),
   name: () => `${faker.name.firstName()} ${faker.name.lastName()}`,
-  phone: () => faker.phone.phoneNumber(),
+  phoneNumber: () => faker.phone.phoneNumber(),
   picture: () => faker.image.avatar(),
   specialty: () => faker.random.arrayElement(SPECIALTIES)
 });

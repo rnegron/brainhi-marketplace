@@ -24,14 +24,8 @@ class MarketplaceFooter extends React.Component {
             </Grid.Row>
             <Grid.Row>
               <Grid.Column>
-                {/* <Header inverted as="h4" content="About" /> */}
                 <p>
-                  Made with <Icon name="like" /> in{" "}
-                  <Flag
-                    style={{ marginRight: "1px", marginLeft: "1px" }}
-                    name="pr"
-                  />{" "}
-                  for my friends at BrainHi!
+                  Made with <Icon name="like" /> for my friends at BrainHi!
                 </p>
                 Source:{" "}
                 <a

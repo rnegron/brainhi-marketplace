@@ -86,18 +86,22 @@ class MarketplaceContent extends React.Component {
         return <PlaceholderCard key={id} />;
       });
     } else {
-      return providers.map(({ id, name, picture, specialty, bio }) => {
-        return (
-          <ProviderCard
-            key={id}
-            id={id}
-            name={name}
-            picture={picture}
-            specialty={specialty}
-            bio={bio}
-          />
-        );
-      });
+      return providers.map(
+        ({ id, name, picture, specialty, bio, address, phoneNumber }) => {
+          return (
+            <ProviderCard
+              key={id}
+              id={id}
+              name={name}
+              picture={picture}
+              specialty={specialty}
+              address={address}
+              bio={bio}
+              phone={phoneNumber}
+            />
+          );
+        }
+      );
     }
   }
 
