@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.contrib.postgres.search import SearchVector
 from django.utils.timezone import now
 from rest_framework import exceptions, status, viewsets
@@ -5,7 +7,10 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from marketplace.appointments.serializers import AppointmentsSerializer
+from marketplace.appointments.serializers import (
+    AppointmentIncomingDataSerializer,
+    AppointmentsSerializer,
+)
 
 from .models import Provider
 from .serializers import ProviderSearchSerializer, ProviderSerializer
@@ -14,7 +19,7 @@ from .serializers import ProviderSearchSerializer, ProviderSerializer
 class ProviderViewSet(viewsets.ModelViewSet):
     serializer_class = ProviderSerializer
 
-    # Random order, limited to 30
+    # Random order
     queryset = Provider.objects.all().order_by("?")
     filterset_fields = ("specialty", "gender")
 
@@ -32,7 +37,6 @@ class ProviderViewSet(viewsets.ModelViewSet):
                 search=SearchVector("name", "specialty", "address")
             )
             .filter(search=search_serializer.validated_data["search_term"])
-            .order_by("id")
             .distinct("id")
         )
 
@@ -47,33 +51,40 @@ class ProviderViewSet(viewsets.ModelViewSet):
             raise exceptions.NotFound()
 
         # Validate incoming request
-        dirty_data = request.data
+        appointment_incoming_data = AppointmentIncomingDataSerializer(data=request.data)
+
+        try:
+            appointment_incoming_data.is_valid(raise_exception=True)
+        except exceptions.ValidationError as error:
+            # Re-raise error, could log here
+            raise exceptions.ValidationError()
+
+        clean_data = appointment_incoming_data.validated_data
 
         # Convert incoming appointment date into separate start_time and end_time
-        start_time = None
-        end_time = None
-        # Convert incoming patient_date_of_birth into date object
-        date_of_birth = None
+        end_time = clean_data["start_time"] + timedelta(hours=1)
 
         appointment_serializer = AppointmentsSerializer(
             data={
-                "provider": provider,
-                "start_time": start_time,
+                "provider": provider.pk,
                 "end_time": end_time,
-                "appointment_reason": dirty_data["appointment_reason"],
-                "patient_name": dirty_data["patient_name"],
-                "patient_insurance": dirty_data["patient_insurance"],
-                "patient_gender": dirty_data["patient_gender"],
-                "patient_date_of_birth": date_of_birth,
-                "patient_phone_number": dirty_data["patient_phone_number"],
+                "patient_date_of_birth": clean_data["patient_date_of_birth"],
+                "start_time": clean_data["start_time"],
+                "appointment_reason": clean_data["appointment_reason"],
+                "patient_name": clean_data["patient_name"],
+                "patient_insurance": clean_data["patient_insurance"],
+                "patient_gender": clean_data["patient_gender"],
+                "patient_phone_number": clean_data["patient_phone_number"],
             }
         )
 
-        if appointment_serializer.is_valid():
+        try:
+            appointment_serializer.is_valid(raise_exception=True)
             appointment = appointment_serializer.save()
             return Response(
                 {"results": {"appointment_id": appointment.id}},
                 status=status.HTTP_201_CREATED,
             )
-
-        return Response()
+        except exceptions.ValidationError as error:
+            # Re-raise error, could log here
+            raise exceptions.ValidationError()
