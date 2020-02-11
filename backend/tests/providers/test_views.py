@@ -106,7 +106,9 @@ def test_can_create_appointment(api_client):
     assert response.status_code == 201
     appointment_created = Appointment.objects.first()
 
-    assert response.json() == {"results": {"appointment_id": str(appointment_created.pk)}}
+    assert response.json() == {
+        "results": {"appointment_id": str(appointment_created.pk)}
+    }
 
 
 @pytest.mark.django_db

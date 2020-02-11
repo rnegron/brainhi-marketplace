@@ -35,7 +35,8 @@ case "$1" in
     ;;
 
   "run_tests")
-      python runtests.py
+      echo "==> Running pytest..."
+      pytest tests/
       ;;
   *)
     exec "$@"

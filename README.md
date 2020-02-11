@@ -1,32 +1,73 @@
-# BrainHi Marketplace: An interview project
+# BrainHi Marketplace Interview Project
 
-## Docker Setup
-
-1. Download [Docker Compose](https://docs.docker.com/compose/install/)
-2. Run `docker-compose up -d`
-3. Visit [http://localhost:8000](http//localhost:8000) to view the frontend, [http://localhost:8000](http//localhost:8000) to view the backend API and [http://localhost:8080](http//localhost:8080) to access the [Adminer](https://www.adminer.org/) database interface. A super user for the Django Admin is created automatically using fixtures. 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d9c4d943-c416-4254-90c4-af113140a64e/deploy-status)](https://app.netlify.com/sites/brainhi-marketplace-rauln/deploys)
 
 
-    email: admin@example.com
-    password: password123
+This repository contains the source code for a marketplace app that allows users to book appointments with a variety of health care providers.
+
+The frontend for the app was written with React, and the backend was written with Django.
+
+## Demo
+
+A running version of the app is available at the following URL:
+
+https://brainhi-marketplace.rauln.com/
+
+This version contains 30 provider profiles that were generated using [Faker](backend/marketplace/providers/factories.py).
+
+Whenever you submit a valid appointment form, a new `Appointment` instance is created in the backend. The backend is hosted at the following URL:
+
+https://brainhi-api.rauln.com/
+
+You can use the Django Admin interface (https://brainhi-api.rauln.com/admin/) to view the created `Appointments`. Use the following pre-created admin user to login:
+
+```
+username: admin@brainhi.com
+password: Bra1nHi!
+```
+
+### Notes
+
+The app is auto-deployed on every `git push` to the master branch using _Netlify_ for the front-end and _Heroku_ for the backend.
+
+## Local Development
+
+You can also setup a local version of the marketplace app.
+
+### Backend setup
+
+__Note__: Requires _Docker_
+
+1. Change into the `backend` folder.
+
+2. Build and run the app: `docker-compose up --build`
+
+This sets up a PostgreSQL database as well as the Django backend hosted on `localhost:8000`. It also runs some fixtures to pre-populate the database with some provider profiles.
+
+The same Django Admin username and password used for the live demo also work here.
+
+### Frontend setup
+
+1. Change in to the `frontend` folder.
+
+2. Install dependencies:
+    `yarn install`
+
+3. Run the React development server: `yarn start`
+
+This should set up the app on `localhost:3000`, which is expecting the backend to be available at `localhost:8000`.
 
 
-You can log in to the Admin interface with the created super user and to the adminer with the following settings:
-    
-    System      PostgreSQL
-    Server      database
-    Username    postgres
-    Password    password
-    Database    postgres
+## Tests
 
-4. Run `docker-compose down` to stop the running containers.
+### Backend
 
-## Running backend tests
+First, change into the `backend` fodler.
 
 **Note**: The [default Django test command](https://docs.djangoproject.com/en/2.2/topics/testing/overview/#running-tests) is being overwritten in this project. That means running
 
 ```bash
-python backend/manage.py test
+python manage.py test
 ```
 
 will instead run a custom management command that executes a shell script, using `docker-compose` and `pytest` for testing.
@@ -34,5 +75,11 @@ will instead run a custom management command that executes a shell script, using
 Alternatively, you can run the shell script directly:
 
 ```bash
-./backend/run-tests
+./run-tests
 ```
+
+### Frontend
+
+1. Change in to the `frontend` folder.
+
+2. TBD
