@@ -15,7 +15,8 @@ export function makeServer({ environment = "development" } = {}) {
     identityManagers: [uuidIdentityManager],
 
     models: {
-      provider: Model
+      provider: Model,
+      appointment: Model
     },
 
     factories: {
@@ -71,6 +72,7 @@ export function makeServer({ environment = "development" } = {}) {
         "/providers/:id/appointment",
         function(schema, request) {
           let data = JSON.parse(request.requestBody);
+          console.log({data})
           return schema.appointments.create(data);
         }
       )

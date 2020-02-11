@@ -4,6 +4,13 @@ import SemanticDatepicker from "react-semantic-ui-datepickers";
 import React from "react";
 import { withRouter } from "react-router-dom";
 
+import format from "date-fns/format"
+import subYears from "date-fns/subYears";
+import parseISO from "date-fns/parseISO";
+import isBefore from "date-fns/isBefore";
+import addHours from "date-fns/addHours";
+import getHours from "date-fns/getHours";
+import startOfDay from "date-fns/startOfDay";
 import { convertToTimeZone } from "date-fns-timezone/dist/convertToTimeZone";
 
 import api from "../../services/api";
@@ -81,26 +88,32 @@ const HOUR_OPTIONS = [
 ];
 
 const GENDER_OPTIONS = [
-  { key: "m", text: "Male", value: "male" },
-  { key: "f", text: "Female", value: "female" },
-  { key: "o", text: "Other", value: "other" },
-  { key: "p", text: "Prefer not to say", value: "n/a" }
+  { key: "m", text: "Male", value: "MALE" },
+  { key: "f", text: "Female", value: "FEMALE" },
+  { key: "o", text: "Other", value: "OTHER" },
+  { key: "p", text: "Prefer not to say", value: "PREFER NOT TO SAY" }
 ];
 
+const INITIAL_STATE_FOR_FIELDS = {
+  fieldFirstName: "",
+  fieldLastName: "",
+  fieldGender: "n/a",
+  fieldPhone: "",
+  fieldInsurance: "",
+  fieldDateOfBirth: null,
+  fieldAppointmentReason: "",
+  fieldAppointmentDate: null,
+  fieldAppointmentTime: ""
+};
+
 class AppointmentForm extends React.Component {
+  today = new Date();
+  eighteenYearsAgo = subYears(new Date(), 18);
+
   state = {
     providerId: "",
-    providerName: "PROVIDER NAME HERE",
 
-    fieldFirstName: "",
-    fieldLastName: "",
-    fieldGender: "",
-    fieldPhone: "",
-    fieldInsurance: "",
-    fieldDateOfBirth: "",
-    fieldAppointmentReason: "",
-    fieldAppointmentDate: "",
-    fieldAppointmentTime: "",
+    ...INITIAL_STATE_FOR_FIELDS,
 
     formSuccess: null,
     resultLoading: false,
@@ -116,6 +129,9 @@ class AppointmentForm extends React.Component {
       fieldAppointmentTime: null
     }
   };
+
+  filterAppointmentDate = date => !isBefore(date, this.today);
+  filterDateOfBirth = date => isBefore(date, this.eighteenYearsAgo);
 
   handleSubmit = async e => {
     e.preventDefault();
@@ -137,24 +153,31 @@ class AppointmentForm extends React.Component {
     // POST form result
     this.setState({ resultLoading: true });
     try {
-      // TODO:Merge fieldAppointmentDate and fieldAppointmentTime
-      // TODO: Remove time from patientDateOfBirth
+      let formattedFieldAppointmentTime = parseISO(
+        `2020-01-01T${fieldAppointmentTime}:00`
+      );
 
-      console.log({ fieldAppointmentDate, fieldAppointmentTime });
+      let hoursForAppointment = getHours(formattedFieldAppointmentTime);
+      let startTimeForAppointment = addHours(
+        startOfDay(fieldAppointmentDate),
+        hoursForAppointment
+      );
+
       let response = await api.post(`/providers/${providerId}/appointment/`, {
-        start_time: null,
+        start_time: startTimeForAppointment,
         appointment_reason: fieldAppointmentReason,
         patient_name: `${fieldFirstName} ${fieldLastName}`,
         patient_insurance: fieldInsurance,
         patient_gender: fieldGender,
-        patient_date_of_birth: fieldDateOfBirth,
+        patient_date_of_birth: format(fieldDateOfBirth, 'yyyy-MM-dd'),
         patient_phone_number: fieldPhone
       });
 
       this.setState({ resultLoading: false });
 
       if (response.status === 201) {
-        this.setState({ formSuccess: true });
+        // Clear out form and mark as success
+        this.setState({ formSuccess: true, ...INITIAL_STATE_FOR_FIELDS });
       } else {
         // TODO: Handle errors
         this.setState({ formSuccess: false });
@@ -176,10 +199,7 @@ class AppointmentForm extends React.Component {
       fieldLastName,
       fieldPhone,
       fieldInsurance,
-      fieldDateOfBirth,
       fieldAppointmentReason,
-      fieldAppointmentDate,
-      fieldAppointmentTime,
 
       formSuccess,
       resultLoading,
@@ -220,7 +240,6 @@ class AppointmentForm extends React.Component {
                 fluid
                 label="Gender"
                 options={GENDER_OPTIONS}
-                defaultValue="n/a"
                 name="fieldGender"
                 onChange={this.handleChange}
                 required
@@ -244,6 +263,8 @@ class AppointmentForm extends React.Component {
                 <label>Date of Birth</label>
                 <SemanticDatepicker
                   datePickerOnly={true}
+                  required={true}
+                  filterDate={this.filterDateOfBirth}
                   placeholder="Date of birth"
                   onChange={(_, data) =>
                     this.setState({
@@ -253,7 +274,7 @@ class AppointmentForm extends React.Component {
                     })
                   }
                   type="basic"
-                  format="MMMM, Qo YYYY"
+                  format="MMMM, Do YYYY"
                 />
               </Form.Field>
             </Form.Group>
@@ -286,9 +307,11 @@ class AppointmentForm extends React.Component {
                 <label>Appointment Date</label>
                 <SemanticDatepicker
                   datePickerOnly={true}
+                  required={true}
+                  filterDate={this.filterAppointmentDate}
                   placeholder="Appointment Date"
                   type="basic"
-                  format="MMMM, Qo YYYY"
+                  format="MMMM, Do YYYY"
                   onChange={(_, data) =>
                     this.setState({
                       fieldAppointmentDate: convertToTimeZone(data.value, {
@@ -300,7 +323,13 @@ class AppointmentForm extends React.Component {
               </Form.Field>
               <Form.Field required>
                 <label>Appointment Hour</label>
-                <Dropdown placeholder="Hour" selection options={HOUR_OPTIONS} />
+                <Dropdown
+                  selection
+                  name="fieldAppointmentTime"
+                  onChange={this.handleChange}
+                  placeholder="Hour"
+                  options={HOUR_OPTIONS}
+                />
               </Form.Field>
             </Form.Group>
             <Message
@@ -313,6 +342,7 @@ class AppointmentForm extends React.Component {
               <Grid.Column textAlign="center">
                 <Button
                   loading={resultLoading}
+                  disabled={resultLoading}
                   primary
                   large="true"
                   content={"Request Appointment"}

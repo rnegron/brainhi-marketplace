@@ -3,7 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 
 // import truncate from "lodash/truncate";
 
-import { Card, Icon, Image, Button, Header, Divider } from "semantic-ui-react";
+import { Card, Icon, Image, Button, Divider } from "semantic-ui-react";
 
 class ProviderCard extends React.Component {
   render() {

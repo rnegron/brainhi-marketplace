@@ -2,10 +2,8 @@ import React from "react";
 
 import {
   Segment,
-  // Header,
   Container,
   Grid,
-  Flag,
   Icon
 } from "semantic-ui-react";
 

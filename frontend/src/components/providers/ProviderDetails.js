@@ -64,7 +64,7 @@ class ProviderDetails extends React.Component {
               <Grid.Column width={8}>
                 <Header as="h1" dividing>
                   <Header.Content>
-                    {name} ({phone_number})
+                    {name} {phone_number}
                   </Header.Content>
                   <Header.Subheader style={{ marginTop: "1em" }}>
                     {address}

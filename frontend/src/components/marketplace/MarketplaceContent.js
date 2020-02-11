@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 
 import times from "lodash/times";
 
-import { Container } from "semantic-ui-react";
+import { Container, Header, Segment } from "semantic-ui-react";
 
 import ProviderCard from "../providers/ProviderCard";
 import ProviderCardGroup from "../providers/ProviderCardGroup";
@@ -77,31 +77,51 @@ class MarketplaceContent extends React.Component {
     }
   };
 
+  getPlaceholderCards() {
+    return times(25, id => <PlaceholderCard key={id} />);
+  }
+
+  getRealCards(providers) {
+    return providers.map(
+      ({ id, name, picture, specialty, address, bio, phone_number }) => (
+        <ProviderCard
+          key={id}
+          id={id}
+          name={name}
+          picture={picture}
+          specialty={specialty}
+          address={address}
+          bio={bio}
+          phone={phone_number}
+        />
+      )
+    );
+  }
+
   // Return real provider cards or placeholders if still loading
   getProviderCards(loading) {
     const { providers } = this.state;
 
     if (loading) {
-      return times(25, id => {
-        return <PlaceholderCard key={id} />;
-      });
-    } else {
-      return providers.map(
-        ({ id, name, picture, specialty, bio, address, phone_number }) => {
-          return (
-            <ProviderCard
-              key={id}
-              id={id}
-              name={name}
-              picture={picture}
-              specialty={specialty}
-              address={address}
-              bio={bio}
-              phone={phone_number}
-            />
-          );
-        }
+      return (
+        <ProviderCardGroup>{this.getPlaceholderCards()}</ProviderCardGroup>
       );
+    } else {
+      if (providers.length === 0) {
+        return (
+          <Segment
+            placeholder
+            textAlign="center"
+            style={{ margin: "2em 0em 0em", padding: "1em 0em" }}
+          >
+            <Header as="h1" content="No providers found!" />
+          </Segment>
+        );
+      } else {
+        return (
+          <ProviderCardGroup>{this.getRealCards(providers)}</ProviderCardGroup>
+        );
+      }
     }
   }
 
@@ -119,9 +139,7 @@ class MarketplaceContent extends React.Component {
           onClickSearchButton={this.onClickSearchButton}
         />
         <Container style={{ marginTop: "5em" }}>
-          <ProviderCardGroup>
-            {this.getProviderCards(this.state.providerCardsLoading)}
-          </ProviderCardGroup>
+          {this.getProviderCards(this.state.providerCardsLoading)}
         </Container>
       </div>
     );

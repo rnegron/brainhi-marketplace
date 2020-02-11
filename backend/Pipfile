@@ -31,6 +31,7 @@ phonenumbers = "==8.11.3"
 django-storages = "==1.9.1"
 pillow = "==7.0.0"
 boto3 = "==1.11.13"
+bleach = "==3.1.0"
 
 [requires]
 python_version = "3.7"
