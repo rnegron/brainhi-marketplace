@@ -42,8 +42,8 @@ class ProviderFactory(DjangoModelFactory):
 
     name = factory.Faker("name")
     provider_id = getNPI()
-    specialty = random.choice(SPECIALTY_CHOICES)
+    specialty = factory.fuzzy.FuzzyChoice(SPECIALTY_CHOICES)
     address = factory.Faker("address")
     phone_number = getPhone()
-    gender = random.choice(GENDER_CHOICES)
+    gender = factory.fuzzy.FuzzyChoice(GENDER_CHOICES)
     bio = factory.Faker("text", max_nb_chars=500)
