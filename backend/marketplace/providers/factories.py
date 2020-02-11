@@ -26,7 +26,7 @@ class ProviderFactory(DjangoModelFactory):
 
     name = factory.Faker("name")
     provider_id = getNPI()
-    specialty = factory.Faker("job")
+    specialty = random.choice(Provider.SPECIALTIES)
     address = factory.Faker("address")
     phone_number = getPhone()
     gender = random.choice(GENDER_CHOICES)

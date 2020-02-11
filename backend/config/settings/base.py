@@ -195,6 +195,11 @@ DJOSER = {
 CORS_ORIGIN_ALLOW_ALL = bool(DEBUG)
 CORS_URLS_REGEX = r"^/v1/.*$"
 
+
+# django-extensions
+SHELL_PLUS_POST_IMPORTS = [("marketplace.providers.factories", ("ProviderFactory",))]
+
+
 # django-allauth
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
