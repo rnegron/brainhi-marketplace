@@ -1,7 +1,6 @@
 import random
 
 import factory
-
 import factory.fuzzy
 from factory.django import DjangoModelFactory
 

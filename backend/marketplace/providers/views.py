@@ -53,11 +53,7 @@ class ProviderViewSet(viewsets.ModelViewSet):
         # Validate incoming request
         appointment_incoming_data = AppointmentIncomingDataSerializer(data=request.data)
 
-        try:
-            appointment_incoming_data.is_valid(raise_exception=True)
-        except exceptions.ValidationError as error:
-            # Re-raise error, could log here
-            raise exceptions.ValidationError()
+        appointment_incoming_data.is_valid(raise_exception=True)
 
         clean_data = appointment_incoming_data.validated_data
 
@@ -78,13 +74,9 @@ class ProviderViewSet(viewsets.ModelViewSet):
             }
         )
 
-        try:
-            appointment_serializer.is_valid(raise_exception=True)
-            appointment = appointment_serializer.save()
-            return Response(
-                {"results": {"appointment_id": appointment.id}},
-                status=status.HTTP_201_CREATED,
-            )
-        except exceptions.ValidationError as error:
-            # Re-raise error, could log here
-            raise exceptions.ValidationError()
+        appointment_serializer.is_valid(raise_exception=True)
+        appointment = appointment_serializer.save()
+        return Response(
+            {"results": {"appointment_id": appointment.id}},
+            status=status.HTTP_201_CREATED,
+        )
