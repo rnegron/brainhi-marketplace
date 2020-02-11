@@ -2,7 +2,6 @@ import uuid
 
 from django.conf import settings
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 
 from marketplace.providers.models import Provider
 
@@ -19,4 +18,4 @@ class Appointment(models.Model):
     patient_insurance = models.CharField(max_length=100)
     patient_gender = models.CharField(max_length=10, choices=Provider.GENDER_CHOICES)
     patient_date_of_birth = models.DateField()
-    patient_phone_number = PhoneNumberField()
+    patient_phone_number = models.CharField(max_length=16)

@@ -6,7 +6,6 @@ from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class CustomUserManager(BaseUserManager):
@@ -65,7 +64,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     date_of_birth = models.DateField(null=True)
-    phone_number = PhoneNumberField()
     address = models.CharField(max_length=128, blank=True)
 
     objects = CustomUserManager()

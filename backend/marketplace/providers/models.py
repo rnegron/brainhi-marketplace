@@ -2,7 +2,6 @@ import uuid
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Provider(models.Model):
@@ -18,6 +17,23 @@ class Provider(models.Model):
         (PREFER_NOT_TO_SAY, "prefer not to say"),
     ]
 
+    SPECIALTIES = [
+        "Allergist",
+        "Anesthesiologist",
+        "Dermatologist",
+        "Radiologist",
+        "Family Doctor",
+        "Internal Medicine",
+        "Neurologist",
+        "Gynecologist",
+        "Ophthalmologist",
+        "Pathologist",
+        "Pediatrician",
+        "Psychiatrist",
+        "Psychologist",
+        "Cardiologist",
+    ]
+
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
 
     provider_id = models.CharField(max_length=10, blank=True)
@@ -28,7 +44,7 @@ class Provider(models.Model):
         upload_to="provider_avatar", default="default-avatar.png"
     )
 
-    phone_number = PhoneNumberField()
+    phone_number = models.CharField(max_length=16)
     address = models.CharField(max_length=128, blank=True)
     gender = models.CharField(max_length=30, choices=GENDER_CHOICES)
     bio = models.TextField(max_length=1028)

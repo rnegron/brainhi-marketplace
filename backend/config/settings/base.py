@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "phonenumber_field",
     # Local Apps
     "marketplace.utils.apps.UtilsConfig",
     "marketplace.api.apps.ApiConfig",
