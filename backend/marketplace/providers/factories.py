@@ -1,6 +1,8 @@
 import random
 
 import factory
+
+import factory.fuzzy
 from factory.django import DjangoModelFactory
 
 from .models import Provider
@@ -8,21 +10,22 @@ from .models import Provider
 GENDER_CHOICES = ["MALE", "FEMALE", "OTHER", "PREFER NOT TO SAY"]
 
 SPECIALTY_CHOICES = [
-        "Allergist",
-        "Anesthesiologist",
-        "Dermatologist",
-        "Radiologist",
-        "Family Doctor",
-        "Internal Medicine",
-        "Neurologist",
-        "Gynecologist",
-        "Ophthalmologist",
-        "Pathologist",
-        "Pediatrician",
-        "Psychiatrist",
-        "Psychologist",
-        "Cardiologist",
-    ]
+    "Allergist",
+    "Anesthesiologist",
+    "Dermatologist",
+    "Radiologist",
+    "Family Doctor",
+    "Internal Medicine",
+    "Neurologist",
+    "Gynecologist",
+    "Ophthalmologist",
+    "Pathologist",
+    "Pediatrician",
+    "Psychiatrist",
+    "Psychologist",
+    "Cardiologist",
+]
+
 
 def getRandomDigitString(n):
     return "".join([str(random.randint(0, 9)) for i in range(n)])
