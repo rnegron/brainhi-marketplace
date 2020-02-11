@@ -17,23 +17,6 @@ class Provider(models.Model):
         (PREFER_NOT_TO_SAY, "prefer not to say"),
     ]
 
-    SPECIALTIES = [
-        "Allergist",
-        "Anesthesiologist",
-        "Dermatologist",
-        "Radiologist",
-        "Family Doctor",
-        "Internal Medicine",
-        "Neurologist",
-        "Gynecologist",
-        "Ophthalmologist",
-        "Pathologist",
-        "Pediatrician",
-        "Psychiatrist",
-        "Psychologist",
-        "Cardiologist",
-    ]
-
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
 
     provider_id = models.CharField(max_length=10, blank=True)

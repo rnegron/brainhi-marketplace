@@ -7,6 +7,22 @@ from .models import Provider
 
 GENDER_CHOICES = ["MALE", "FEMALE", "OTHER", "PREFER NOT TO SAY"]
 
+SPECIALTY_CHOICES = [
+        "Allergist",
+        "Anesthesiologist",
+        "Dermatologist",
+        "Radiologist",
+        "Family Doctor",
+        "Internal Medicine",
+        "Neurologist",
+        "Gynecologist",
+        "Ophthalmologist",
+        "Pathologist",
+        "Pediatrician",
+        "Psychiatrist",
+        "Psychologist",
+        "Cardiologist",
+    ]
 
 def getRandomDigitString(n):
     return "".join([str(random.randint(0, 9)) for i in range(n)])
@@ -26,7 +42,7 @@ class ProviderFactory(DjangoModelFactory):
 
     name = factory.Faker("name")
     provider_id = getNPI()
-    specialty = random.choice(Provider.SPECIALTIES)
+    specialty = random.choice(SPECIALTY_CHOICES)
     address = factory.Faker("address")
     phone_number = getPhone()
     gender = random.choice(GENDER_CHOICES)
