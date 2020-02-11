@@ -40,7 +40,7 @@ def test_register_passwords_have_to_match(api_client):
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-    error = response.data["non_field_errors"][0]
+    error = response.data["errors"]["non_field_errors"][0]
     assert str(error) == "The two password fields didn't match."
     assert error.code == "password_mismatch"
 
@@ -63,7 +63,7 @@ def test_cant_register_if_email_not_unique(api_client):
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-    error = response.data["email"][0]
+    error = response.data["errors"]["email"][0]
     assert str(error) == "user with this email address already exists."
     assert error.code == "unique"
 
@@ -79,7 +79,7 @@ def test_cant_register_without_confirming_password(api_client):
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-    error = response.data["re_password"][0]
+    error = response.data["errors"]["re_password"][0]
     assert str(error) == "This field is required."
 
 
@@ -130,7 +130,7 @@ def test_cant_login_without_account(api_client):
     response = api_client.post(url)
     assert response.status_code == 400
 
-    error = response.data["non_field_errors"][0]
+    error = response.data["errors"]["non_field_errors"][0]
     assert error.code == "invalid_credentials"
 
 
@@ -149,7 +149,7 @@ def test_cant_login_with_wrong_password(api_client):
     )
     assert response.status_code == 400
 
-    error = response.data["non_field_errors"][0]
+    error = response.data["errors"]["non_field_errors"][0]
     assert error.code == "invalid_credentials"
 
 

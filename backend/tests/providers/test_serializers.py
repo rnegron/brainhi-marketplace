@@ -12,9 +12,9 @@ def test_is_valid():
             specialty="Mango Eater",
             adddress="123 Constitution Drive",
             phone_number="+17877877878",
-            gender="male",
+            gender="MALE",
             bio="I am a test which should test the thing I am testing",
         )
     )
 
-    assert serializer.is_valid() is True
+    assert serializer.is_valid()
