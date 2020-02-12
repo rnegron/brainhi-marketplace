@@ -24,9 +24,7 @@ class MarketplaceContent extends React.Component {
   state = INITIAL_STATE;
 
   fetchAllProviders = async () => {
-    let response = await api.get("providers");
-
-    console.log({ contentResponse: response });
+    let response = await api.get("providers/");
 
     this.setState({
       providerCardsLoading: false,

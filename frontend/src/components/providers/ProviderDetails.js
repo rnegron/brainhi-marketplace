@@ -31,8 +31,7 @@ class ProviderDetails extends React.Component {
     try {
       this.setState({ loading: true });
 
-      let response = await api.get(`providers/${id}`);
-      console.log({ detailsResponse: response });
+      let response = await api.get(`providers/${id}/`);
 
       let result = response.data;
       this.setState({
