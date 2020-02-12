@@ -63,7 +63,7 @@ First, change into the `backend` fodler.
 **Note**: The [default Django test command](https://docs.djangoproject.com/en/2.2/topics/testing/overview/#running-tests) is being overwritten in this project. That means running
 
 ```bash
-python manage.py test
+pipenv run python manage.py test
 ```
 
 will instead run a custom management command that executes a shell script, using `docker-compose` and `pytest` for testing.
