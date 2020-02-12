@@ -10,7 +10,7 @@ class ProviderCard extends React.Component {
     const { id, picture, name, specialty, address, phone } = this.props;
 
     return (
-      <Card>
+      <Card data-test-id="provider-card">
         <Image src={picture} wrapped ui={false} />
 
         <Card.Content>
@@ -47,6 +47,7 @@ class ProviderCard extends React.Component {
 
         <Card.Content extra textAlign={"center"}>
           <Button
+            data-test-id="provider-detail-button"
             as={Link}
             to={`/providers/${id}`}
             primary

@@ -36,12 +36,6 @@ class MarketplaceContent extends React.Component {
 
   onSearchChange = (e, { value }) => {
     this.setState({ searchTerm: value });
-
-    setTimeout(async () => {
-      if (this.state.searchTerm.length < 1) {
-        return this.setState({ searchResultsLoading: false, searchTerm: "" });
-      }
-    }, 300);
   };
 
   onClickSearchButton = async () => {
@@ -54,13 +48,11 @@ class MarketplaceContent extends React.Component {
     this.setState({ searchResultsLoading: true, providerCardsLoading: true });
 
     try {
-      let response = await api.get(`providers/search`, {
+      let response = await api.get(`providers/search/`, {
         params: {
           search_term: searchTerm
         }
       });
-
-      console.log({ response });
 
       this.setState({
         providers: response.data.results,
@@ -114,7 +106,11 @@ class MarketplaceContent extends React.Component {
             textAlign="center"
             style={{ margin: "2em 0em 0em", padding: "1em 0em" }}
           >
-            <Header as="h1" content="No providers found!" />
+            <Header
+              data-test-id="no-providers"
+              as="h1"
+              content="No providers found!"
+            />
           </Segment>
         );
       } else {

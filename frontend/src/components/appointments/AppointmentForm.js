@@ -4,8 +4,7 @@ import SemanticDatepicker from "react-semantic-ui-datepickers";
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import format from "date-fns/format"
-import subYears from "date-fns/subYears";
+import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import isBefore from "date-fns/isBefore";
 import addHours from "date-fns/addHours";
@@ -87,6 +86,14 @@ const HOUR_OPTIONS = [
   }
 ];
 
+const INSURANCE_CHOICES = [
+  { key: "mapfre", text: "Mapfre", value: "Mapfre" },
+  { key: "humana", text: "Humana", value: "Humana" },
+  { key: "first-medical", text: "First Medical", value: "First Medical" },
+  { key: "mmm", text: "MMM", value: "MMM" },
+  { key: "triple-s", text: "Triple-S", value: "Triple-S" }
+];
+
 const GENDER_OPTIONS = [
   { key: "m", text: "Male", value: "MALE" },
   { key: "f", text: "Female", value: "FEMALE" },
@@ -94,28 +101,22 @@ const GENDER_OPTIONS = [
   { key: "p", text: "Prefer not to say", value: "PREFER NOT TO SAY" }
 ];
 
+const TODAY = new Date();
+
 const INITIAL_STATE_FOR_FIELDS = {
   fieldFirstName: "",
   fieldLastName: "",
-  fieldGender: "n/a",
+  fieldGender: "",
   fieldPhone: "",
-  fieldInsurance: "",
-  fieldDateOfBirth: null,
-  fieldAppointmentReason: "",
-  fieldAppointmentDate: null,
-  fieldAppointmentTime: ""
+  fieldAppointmentReason: ""
 };
 
 class AppointmentForm extends React.Component {
-  today = new Date();
-  eighteenYearsAgo = subYears(new Date(), 18);
-
   state = {
-    providerId: "",
-
     ...INITIAL_STATE_FOR_FIELDS,
 
     formSuccess: null,
+    formError: false,
     resultLoading: false,
     errors: {
       fieldFirstName: null,
@@ -130,8 +131,8 @@ class AppointmentForm extends React.Component {
     }
   };
 
-  filterAppointmentDate = date => !isBefore(date, this.today);
-  filterDateOfBirth = date => isBefore(date, this.eighteenYearsAgo);
+  filterAppointmentDate = date => !isBefore(date, TODAY);
+  filterDateOfBirth = date => isBefore(date, TODAY);
 
   handleSubmit = async e => {
     e.preventDefault();
@@ -153,11 +154,15 @@ class AppointmentForm extends React.Component {
     // POST form result
     this.setState({ resultLoading: true });
     try {
+      // Create an ISO representation of the appointment time
       let formattedFieldAppointmentTime = parseISO(
         `2020-01-01T${fieldAppointmentTime}:00`
       );
 
+      // Obtain an integer hour count for the appointment time
       let hoursForAppointment = getHours(formattedFieldAppointmentTime);
+
+      // Add the integer hours to the chosen appointment date
       let startTimeForAppointment = addHours(
         startOfDay(fieldAppointmentDate),
         hoursForAppointment
@@ -169,25 +174,42 @@ class AppointmentForm extends React.Component {
         patient_name: `${fieldFirstName} ${fieldLastName}`,
         patient_insurance: fieldInsurance,
         patient_gender: fieldGender,
-        patient_date_of_birth: format(fieldDateOfBirth, 'yyyy-MM-dd'),
+        patient_date_of_birth: format(fieldDateOfBirth, "yyyy-MM-dd"),
         patient_phone_number: fieldPhone
       });
 
-      this.setState({ resultLoading: false });
+      this.setState({
+        formError: false,
+        formSuccess: false,
+        resultLoading: false
+      });
 
       if (response.status === 201) {
         // Clear out form and mark as success
-        this.setState({ formSuccess: true, ...INITIAL_STATE_FOR_FIELDS });
+        this.setState({
+          formSuccess: true,
+          ...INITIAL_STATE_FOR_FIELDS
+        });
       } else {
-        // TODO: Handle errors
-        this.setState({ formSuccess: false });
+        let errors = response.data.errors;
+        this.setState({
+          formSuccess: false,
+          formError: true,
+          errors: {
+            fieldFirstName: errors.patient_name,
+            fieldLastName: errors.patient_name,
+            fieldPhone: errors.patient_phone_number,
+            fieldGender: errors.patient_gender,
+            fieldInsurance: errors.patient_insurance,
+            fieldDateOfBirth: errors.patient_date_of_birth,
+            fieldAppointmentReason: errors.appointment_reason,
+            fieldAppointmentDate: errors.start_time,
+            fieldAppointmentTime: errors.start_time
+          }
+        });
       }
-
-      console.log({ appointmentResponse: response });
     } catch (error) {
-      console.error(error);
-      // TODO: Handle errors
-      this.setState({ resultLoading: false });
+      this.setState({ formError: true, resultLoading: false });
     }
   };
 
@@ -198,10 +220,11 @@ class AppointmentForm extends React.Component {
       fieldFirstName,
       fieldLastName,
       fieldPhone,
-      fieldInsurance,
       fieldAppointmentReason,
+      fieldAppointmentDate,
 
       formSuccess,
+      formError,
       resultLoading,
       errors
     } = this.state;
@@ -220,7 +243,7 @@ class AppointmentForm extends React.Component {
                 name="fieldFirstName"
                 onChange={this.handleChange}
                 value={fieldFirstName}
-                error={errors.firstNameError}
+                error={errors.fieldFirstName}
               />
 
               <Form.Input
@@ -232,7 +255,7 @@ class AppointmentForm extends React.Component {
                 name="fieldLastName"
                 onChange={this.handleChange}
                 value={fieldLastName}
-                error={errors.lastNameError}
+                error={errors.fieldLastName}
               />
 
               <Form.Select
@@ -243,7 +266,7 @@ class AppointmentForm extends React.Component {
                 name="fieldGender"
                 onChange={this.handleChange}
                 required
-                error={errors.genderError}
+                error={errors.fieldGender}
               />
             </Form.Group>
 
@@ -266,6 +289,8 @@ class AppointmentForm extends React.Component {
                   required={true}
                   filterDate={this.filterDateOfBirth}
                   placeholder="Date of birth"
+                  name="fieldDateOfBirth"
+                  error={errors.fieldDateOfBirth}
                   onChange={(_, data) =>
                     this.setState({
                       fieldDateOfBirth: convertToTimeZone(data.value, {
@@ -281,15 +306,15 @@ class AppointmentForm extends React.Component {
 
             <Divider />
 
-            <Form.Input
+            <Form.Select
               fluid
               id="form-input-control-insurance"
               label="Insurance"
               placeholder="Your Insurance Company"
-              required
+              required={true}
+              options={INSURANCE_CHOICES}
               name="fieldInsurance"
               onChange={this.handleChange}
-              value={fieldInsurance}
               error={errors.fieldInsurance}
             />
 
@@ -299,6 +324,7 @@ class AppointmentForm extends React.Component {
               required
               name="fieldAppointmentReason"
               onChange={this.handleChange}
+              error={errors.fieldAppointmentReason}
               value={fieldAppointmentReason}
             />
 
@@ -311,6 +337,7 @@ class AppointmentForm extends React.Component {
                   filterDate={this.filterAppointmentDate}
                   placeholder="Appointment Date"
                   type="basic"
+                  error={errors.fieldAppointmentDate}
                   format="MMMM, Do YYYY"
                   onChange={(_, data) =>
                     this.setState({
@@ -325,9 +352,11 @@ class AppointmentForm extends React.Component {
                 <label>Appointment Hour</label>
                 <Dropdown
                   selection
+                  required
                   name="fieldAppointmentTime"
                   onChange={this.handleChange}
                   placeholder="Hour"
+                  error={this.fieldAppointmentTime}
                   options={HOUR_OPTIONS}
                 />
               </Form.Field>
@@ -336,6 +365,13 @@ class AppointmentForm extends React.Component {
               success
               header="Form Completed"
               content="Your appointment is confirmed!"
+            />
+
+            <Message
+              error
+              header="An error occured!"
+              content="Please double-check the provided values."
+              visible={formError}
             />
 
             <Grid style={{ marginTop: "0.5em" }}>

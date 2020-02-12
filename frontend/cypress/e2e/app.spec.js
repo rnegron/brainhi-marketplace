@@ -35,7 +35,7 @@ it("should navigate to the selected provider detail route", () => {
   cy.url().should("eq", `http://localhost:3000/providers/${provider.id}`);
 });
 
-it.only("should find the provider name via search", () => {
+it("should find the provider via name", () => {
   server.create("provider");
   let provider = server.create("provider", { name: "Test" });
 
