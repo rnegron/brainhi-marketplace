@@ -54,10 +54,10 @@ const HOUR_OPTIONS = [
     text: "11 AM",
     value: "11:00"
   },
-  { 
+  {
     key: "12pm",
     text: "12 PM",
-    value: "12:00" 
+    value: "12:00"
   },
   {
     key: "1 pm",
@@ -193,6 +193,17 @@ class AppointmentForm extends React.Component {
         // Clear out form and mark as success
         this.setState({
           formSuccess: true,
+          errors: {
+            fieldFirstName: null,
+            fieldLastName: null,
+            fieldGender: null,
+            fieldPhone: null,
+            fieldInsurance: null,
+            fieldDateOfBirth: null,
+            fieldAppointmentReason: null,
+            fieldAppointmentDate: null,
+            fieldAppointmentTime: null
+          },
           ...INITIAL_STATE_FOR_FIELDS
         });
       } else {
