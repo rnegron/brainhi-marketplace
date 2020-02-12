@@ -22,9 +22,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "mirage": "REACT_APP_MIRAGE=true yarn start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:open": "BROWSER=none start-server-and-test mirage http://localhost:3000 cypress:open",
+    "test:run": "BROWSER=none start-server-and-test mirage http://localhost:3000 cypress:run",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,9 +47,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "babelify": "^10.0.0",
+    "cypress": "^4.0.1",
+    "cypress-jest-adapter": "^0.1.1",
+    "eslint-plugin-cypress": "^2.9.0",
     "husky": "^4.2.1",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
+    "start-server-and-test": "^1.10.8",
     "uuid": "^3.4.0"
   },
   "lint-staged": {

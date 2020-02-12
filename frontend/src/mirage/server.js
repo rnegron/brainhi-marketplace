@@ -2,8 +2,6 @@ import { Server, Model, RestSerializer } from "miragejs";
 
 import { ProviderFactory } from "./factories";
 
-import uuidIdentityManager from "./uuid";
-
 export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     environment,
@@ -11,8 +9,6 @@ export function makeServer({ environment = "development" } = {}) {
     serializers: {
       application: RestSerializer
     },
-
-    identityManagers: [uuidIdentityManager],
 
     models: {
       provider: Model,
@@ -42,9 +38,9 @@ export function makeServer({ environment = "development" } = {}) {
       );
 
       this.get(
-        "/providers/search/:term",
+        "/providers/search/",
         function(schema, request) {
-          let term = request.params.term;
+          let term = request.queryParams.search_term;
           let provider = schema.providers.findBy({ name: term });
 
           let json = this.serialize(provider);
@@ -68,14 +64,19 @@ export function makeServer({ environment = "development" } = {}) {
         { timing: 500 }
       );
 
-      this.post(
-        "/providers/:id/appointment",
-        function(schema, request) {
-          let data = JSON.parse(request.requestBody);
-          console.log({data})
-          return schema.appointments.create(data);
+      this.post("/providers/:id/appointment", function(schema, request) {
+        let data = JSON.parse(request.requestBody);
+
+        if (data.firstName === "CRASH") {
+          return new Response(
+            400,
+            {},
+            { errors: { patient_first_name: ["Bad name"] } }
+          );
         }
-      )
+
+        return schema.appointments.create(data);
+      });
     }
   });
 
