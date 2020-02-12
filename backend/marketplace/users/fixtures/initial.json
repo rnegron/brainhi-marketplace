@@ -1,0 +1,20 @@
+[
+  {
+    "model": "users.user",
+    "pk": "db0eb328-ce8f-423b-bfa6-7982edd60b0e",
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$ZW5tUnhzV2QzMThL$T/q3Y9Jrqg2UDlulYQqqQw",
+      "last_login": null,
+      "is_superuser": true,
+      "name": "",
+      "email": "admin@brainhi.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-02-12T01:00:34.227Z",
+      "date_of_birth": null,
+      "address": "",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

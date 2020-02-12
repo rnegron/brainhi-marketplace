@@ -82,4 +82,8 @@ Alternatively, you can run the shell script directly:
 
 1. Change in to the `frontend` folder.
 
-2. TBD
+2. Install dependencies: `yarn install`
+
+3. Run `cypress` tests
+    * With the browser: `yarn test:open`
+    * With the CLI: `yarn test:run`
