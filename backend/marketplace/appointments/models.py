@@ -16,6 +16,6 @@ class Appointment(models.Model):
 
     patient_name = models.CharField(max_length=100)
     patient_insurance = models.CharField(max_length=100)
-    patient_gender = models.CharField(max_length=10, choices=Provider.GENDER_CHOICES)
+    patient_gender = models.CharField(max_length=32, choices=Provider.GENDER_CHOICES)
     patient_date_of_birth = models.DateField()
     patient_phone_number = models.CharField(max_length=16)
