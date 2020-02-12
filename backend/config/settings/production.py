@@ -2,6 +2,8 @@ import os
 
 from .base import *  # noqa
 
+DEBUG = False
+
 ALLOWED_HOSTS = ["brainhi-api.rauln.com"]
 CORS_ORIGIN_WHITELIST = ["https://brainhi-marketplace.rauln.com"]
 
