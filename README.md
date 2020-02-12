@@ -37,7 +37,7 @@ __Note__: Requires _Docker_
 
 1. Change into the `backend` folder.
 
-2. Build and run the app: `docker-compose up --build`
+2. Build and run the app in detached mode: `docker-compose up --build -d`
 
 This sets up a PostgreSQL database as well as the Django backend hosted on `localhost:8000`. It also runs some fixtures to pre-populate the database with some provider profiles.
 
@@ -47,8 +47,7 @@ The same Django Admin username and password used for the live demo also work her
 
 1. Change in to the `frontend` folder.
 
-2. Install dependencies:
-    `yarn install`
+2. Install dependencies: `yarn install`
 
 3. Run the React development server: `yarn start`
 

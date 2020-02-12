@@ -22,8 +22,11 @@ until postgres_ready; do
 
 case "$1" in
   "dev_start")
-    echo "==> Running migrations..."
+
+    echo "==> Collecting static files..."
     python manage.py collectstatic --noinput
+
+    echo "==> Running migrations..."
     python manage.py makemigrations
     python manage.py migrate
 
