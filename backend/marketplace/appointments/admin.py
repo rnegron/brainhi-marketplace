@@ -7,6 +7,7 @@ from .models import Appointment
 class AppointmentAdmin(admin.ModelAdmin):
     date_hierarchy = "start_time"
     list_display = (
+        "id",
         "patient_name",
         "provider",
         "start_time",
@@ -14,4 +15,4 @@ class AppointmentAdmin(admin.ModelAdmin):
         "patient_insurance",
     )
     list_filter = ("provider",)
-    search_fields = ("provider_id", "phone", "address")
+    search_fields = ("id", "provider_id", "phone", "address")
