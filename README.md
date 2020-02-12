@@ -1,8 +1,5 @@
 # BrainHi Marketplace Interview Project
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d9c4d943-c416-4254-90c4-af113140a64e/deploy-status)](https://app.netlify.com/sites/brainhi-marketplace-rauln/deploys)
-
-
 This repository contains the source code for a marketplace app that allows users to book appointments with a variety of health care providers.
 
 The frontend for the app was written with React, and the backend was written with Django.
