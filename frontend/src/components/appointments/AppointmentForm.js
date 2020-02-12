@@ -54,6 +54,11 @@ const HOUR_OPTIONS = [
     text: "11 AM",
     value: "11:00"
   },
+  { 
+    key: "12pm",
+    text: "12 PM",
+    value: "12:00" 
+  },
   {
     key: "1 pm",
     text: "1 PM",
