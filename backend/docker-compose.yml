@@ -37,8 +37,8 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:password@database:5432/postgres
       - REDIS_URL=redis://redis:6379
-    env_file:
-      - .env
+      - DEBUG=True
+      - SECRET_KEY=super-secret-key
     restart: on-failure
     volumes:
       - ./tests:/home/appusers/tests
