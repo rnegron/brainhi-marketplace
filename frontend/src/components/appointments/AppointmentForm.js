@@ -237,7 +237,6 @@ class AppointmentForm extends React.Component {
       fieldLastName,
       fieldPhone,
       fieldAppointmentReason,
-      fieldAppointmentDate,
 
       formSuccess,
       formError,
