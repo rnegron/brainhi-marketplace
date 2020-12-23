@@ -14,9 +14,9 @@ This version contains 30 provider profiles that were generated using [Faker](bac
 
 Whenever you submit a valid appointment form, a new `Appointment` instance is created in the backend. The backend is hosted at the following URL:
 
-https://brainhi-api.rauln.com/
+https://brainhi-marketplace-api.herokuapp.com
 
-You can use the Django Admin interface (https://brainhi-api.rauln.com/admin/) to view the created `Appointments`. Use the following pre-created admin user to login:
+You can use the Django Admin interface (https://brainhi-marketplace-api.herokuapp.com/admin/) to view the created `Appointments`. Use the following pre-created admin user to login:
 
 ```
 username: admin@brainhi.com

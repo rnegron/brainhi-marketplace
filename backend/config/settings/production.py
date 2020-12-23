@@ -4,7 +4,7 @@ from .base import *  # noqa
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["brainhi-api.rauln.com"]
+ALLOWED_HOSTS = ["brainhi-api.rauln.com", "brainhi-marketplace-api.herokuapp.com"]
 CORS_ORIGIN_WHITELIST = ["https://brainhi-marketplace.rauln.com"]
 
 

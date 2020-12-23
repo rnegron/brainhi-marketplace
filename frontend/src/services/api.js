@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let baseURL = "https://brainhi-api.rauln.com/v1";
+let baseURL = "https://brainhi-marketplace-api.herokuapp.com/v1";
 
 if (process.env.NODE_ENV === "development") {
   baseURL = "http://localhost:8000/v1";
